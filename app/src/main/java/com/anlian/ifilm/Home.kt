@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anlian.ifilm.api.RetrofitConnection
 import com.anlian.ifilm.controller.Adapter
@@ -30,10 +31,16 @@ class Home : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
         startRetrofit()
-
+        insertData()
 
         // Inflate the layout for this fragment
         return view
+    }
+
+    private fun insertData() {
+        binding.addMovieBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_home2_to_insert)
+        }
     }
 
     private fun startRetrofit() {

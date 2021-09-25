@@ -12,6 +12,6 @@
     <string name="example_genre">Example : Action, Romance, Comedy</string>
     <string name="example_popularity">Example : 6.5</string>
     <string name="rating">Rating :</string>
-    <string name="insert">insert</string>
     <string name="insert_fragment_title">Insert Movie</string>
+    <string name="insert">insert</string>
 </resources>

@@ -11,7 +11,6 @@ interface Service {
     @FormUrlEncoded
     @POST("restapi.php")
     fun insertMovie(
-        @Field("id") id : Int,
         @Field("title") title: String,
         @Field("genre") genre: String,
         @Field("rating") rating: Float,
