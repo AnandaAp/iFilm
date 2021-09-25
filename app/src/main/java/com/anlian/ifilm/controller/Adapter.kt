@@ -4,10 +4,16 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.anlian.ifilm.api.RetrofitConnection
 import com.anlian.ifilm.databinding.DetailMovieRecyclerViewBinding
 import com.anlian.ifilm.model.DataItem
+import com.anlian.ifilm.model.DefaultResponse
 import com.anlian.ifilm.model.MovieResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.ArrayList
 
 class Adapter(private val context: Activity, private var data: ArrayList<DataItem>):
@@ -24,12 +30,16 @@ class Adapter(private val context: Activity, private var data: ArrayList<DataIte
 
         @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: Adapter.ViewHolder, position: Int) {
-            holder.binding.numberTxt.text = position.toString()
+            holder.binding.numberTxt.text = (1+position).toString()
             holder.binding.titleMovieTxt.text = data.get(position).title
             holder.binding.genreTxt.text = data.get(position).genre
             holder.binding.popularityTxt.text = "Rating : ${
                 data.get(position).rating
             }"
+            holder.binding.deleteBtn.setOnClickListener{
+                println("hapus")
+                deleteData(position)
+            }
         }
 
         override fun getItemCount(): Int {
@@ -40,5 +50,66 @@ class Adapter(private val context: Activity, private var data: ArrayList<DataIte
             data.clear()
             data = _data
             notifyDataSetChanged()
+        }
+        fun deleteData(position: Int) {
+            RetrofitConnection
+                .getService()
+                .deleteMovie(position.toString(),"delete_movie")
+                .enqueue(object : Callback<DefaultResponse>{
+                    override fun onResponse(
+                        call: Call<DefaultResponse>,
+                        response: Response<DefaultResponse>
+                    ) {
+                        startRetrofit()
+                        println("Delete Success")
+                    }
+
+                    override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                        println("Failed to")
+                        Toast.makeText(
+                            context,
+                            t.localizedMessage,
+                            Toast.LENGTH_LONG).show()
+                    }
+
+                })
+        }
+        private fun startRetrofit() {
+            RetrofitConnection
+                .getService()
+                .getMovie()
+                .enqueue(object : Callback<MovieResponse>{
+                    override fun onResponse(
+                        call: Call<MovieResponse>,
+                        response: Response<MovieResponse>
+                    ) {
+                        if (response.isSuccessful){
+                            val result = response.body()?.data
+                            showData(result)
+                            println(response.body()?.data)
+                        }else{
+                            Toast.makeText(
+                                context,
+                                "Reponse Gagal",
+                                Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                        println("Failed to")
+                        Toast.makeText(
+                            context,
+                            t.localizedMessage,
+                            Toast.LENGTH_LONG).show()
+                    }
+
+                })
+        }
+        private fun showData(result: List<DataItem?>?) {
+            updateAdapter(result)
+        }
+
+        private fun updateAdapter(result: List<DataItem?>?) {
+            setData(result as ArrayList<DataItem>)
         }
 }

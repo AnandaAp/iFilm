@@ -16,4 +16,11 @@ interface Service {
         @Field("rating") rating: Float,
         @Query("function") function: String
     ): Call <DefaultResponse>
+
+    @FormUrlEncoded
+    @POST("restapi.php")
+    fun deleteMovie(
+        @Field("id") id: String,
+        @Query("function") function: String
+    ): Call <DefaultResponse>
 }
