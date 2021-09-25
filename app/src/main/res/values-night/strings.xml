@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_add">Add Movie</string>
+    <string name="example_insert">Example : Lord of The Ring</string>
+    <string name="example_genre">Example : Action, Romance, Comedy</string>
+    <string name="example_popularity">Example : 6.5</string>
+</resources>

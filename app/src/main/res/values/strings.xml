@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">iFilm</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movie_add">Add Movie</string>
+    <string name="number">number</string>
+    <string name="title">title</string>
+    <string name="genre">genre</string>
+    <string name="popularity">popularity</string>
+    <string name="edit">edit</string>
+    <string name="example_insert">Example : Lord of The Ring</string>
+    <string name="example_genre">Example : Action, Romance, Comedy</string>
+    <string name="example_popularity">Example : 6.5</string>
+    <string name="rating">Rating :</string>
+    <string name="insert">insert</string>
+    <string name="insert_fragment_title">Insert Movie</string>
+</resources>
