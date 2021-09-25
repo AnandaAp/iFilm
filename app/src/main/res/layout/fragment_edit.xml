@@ -1,14 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/editGenreField"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Edit">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/editTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/edit"
+            android:textAllCaps="true"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".9" />
+
+        <EditText
+            android:id="@+id/editTitleField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/title"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/editTitle"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/editTitle"
+            app:layout_constraintTop_toBottomOf="@+id/editTitle"
+            app:layout_constraintVertical_bias=".04"
+            app:layout_constraintWidth_percent=".6" />
+
+        <TextView
+            android:id="@+id/editTitleTxt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Title :"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/editTitleField"
+            app:layout_constraintEnd_toStartOf="@+id/editTitleField"
+            app:layout_constraintStart_toStartOf="@+id/editTitle"
+            app:layout_constraintTop_toTopOf="@+id/editTitleField" />
+
+        <EditText
+            android:id="@+id/genreEditField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/genre"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="@+id/editTitleField"
+            app:layout_constraintStart_toStartOf="@+id/editTitleField"
+            app:layout_constraintTop_toBottomOf="@+id/editTitleField" />
+
+        <TextView
+            android:id="@+id/editGenreTxt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Genre :"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/genreEditField"
+            app:layout_constraintEnd_toStartOf="@+id/editTitleField"
+            app:layout_constraintStart_toStartOf="@+id/editTitleTxt"
+            app:layout_constraintTop_toTopOf="@+id/genreEditField" />
+
+        <EditText
+            android:id="@+id/editRatingField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="rating"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="@+id/genreEditField"
+            app:layout_constraintStart_toStartOf="@+id/genreEditField"
+            app:layout_constraintTop_toBottomOf="@+id/genreEditField" />
+
+        <TextView
+            android:id="@+id/editRatingTxt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Rating :"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/editRatingField"
+            app:layout_constraintEnd_toEndOf="@+id/editGenreTxt"
+            app:layout_constraintEnd_toStartOf="@+id/genreEditField"
+            app:layout_constraintStart_toStartOf="@+id/editGenreTxt"
+            app:layout_constraintTop_toTopOf="@+id/editRatingField" />
+
+        <Button
+            android:id="@+id/editBtnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/paradise_pink"
+            android:text="@string/save"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/editRatingField"
+            app:layout_constraintStart_toStartOf="@+id/editRatingTxt"
+            app:layout_constraintTop_toBottomOf="@+id/editRatingField" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

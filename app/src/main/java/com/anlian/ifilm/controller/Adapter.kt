@@ -3,9 +3,12 @@ package com.anlian.ifilm.controller
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.anlian.ifilm.HomeDirections
 import com.anlian.ifilm.api.RetrofitConnection
 import com.anlian.ifilm.databinding.DetailMovieRecyclerViewBinding
 import com.anlian.ifilm.model.DataItem
@@ -30,19 +33,30 @@ class Adapter(private val context: Activity, private var data: ArrayList<DataIte
 
         @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: Adapter.ViewHolder, position: Int) {
+            val title = data[position].title
+            val genre = data[position].genre
+            val rating = data[position].rating
+            val id = data[position].id?.toInt()
             holder.binding.numberTxt.text = (1+position).toString()
-            holder.binding.titleMovieTxt.text = data.get(position).title
-            holder.binding.genreTxt.text = data.get(position).genre
-            holder.binding.popularityTxt.text = "Rating : ${
-                data.get(position).rating
-            }"
+            holder.binding.titleMovieTxt.text = title
+            holder.binding.genreTxt.text = genre
+            holder.binding.popularityTxt.text = "Rating : $rating"
             holder.binding.deleteBtn.setOnClickListener{
                 println("hapus")
-                deleteData(position)
+                id?.let { it1 -> deleteData(it1) }
+            }
+            holder.binding.editBtn.setOnClickListener{
+                println("edit")
+                editData(title,genre,rating,id,it)
             }
         }
 
-        override fun getItemCount(): Int {
+    private fun editData(title: String?, genre: String?, rating: String?, id: Int?, view: View) {
+        val direction = HomeDirections.actionHome2ToEdit(title!!, genre!!, rating!!, id.toString())
+        view.findNavController().navigate(direction)
+    }
+
+    override fun getItemCount(): Int {
            return data.size
         }
         @SuppressLint("NotifyDataSetChanged")
@@ -51,6 +65,7 @@ class Adapter(private val context: Activity, private var data: ArrayList<DataIte
             data = _data
             notifyDataSetChanged()
         }
+
         fun deleteData(position: Int) {
             RetrofitConnection
                 .getService()

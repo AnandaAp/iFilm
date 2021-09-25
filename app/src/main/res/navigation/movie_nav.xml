@@ -45,8 +45,7 @@
             android:name="popularity"
             app:argType="string" />
         <argument
-            android:name="release"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="id"
+            app:argType="string" />
     </dialog>
 </navigation>
