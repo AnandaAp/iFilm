@@ -21,7 +21,7 @@ interface Service {
     @FormUrlEncoded
     @POST("restapi.php")
     fun deleteMovie(
-        @Field("id") id: String,
+        @Field("id") id: Int,
         @Query("function") function: String
     ): Call <DefaultResponse>
 

@@ -69,13 +69,16 @@ class Adapter(private val context: Activity, private var data: ArrayList<DataIte
         fun deleteData(position: Int) {
             RetrofitConnection
                 .getService()
-                .deleteMovie(position.toString(),"delete_movie")
+                .deleteMovie(position,"delete_movie")
                 .enqueue(object : Callback<DefaultResponse>{
                     override fun onResponse(
                         call: Call<DefaultResponse>,
                         response: Response<DefaultResponse>
                     ) {
-                        startRetrofit()
+                        Toast.makeText(
+                            context,
+                            "Delete Success",
+                            Toast.LENGTH_LONG).show()
                         println("Delete Success")
                     }
 
@@ -99,9 +102,9 @@ class Adapter(private val context: Activity, private var data: ArrayList<DataIte
                         response: Response<MovieResponse>
                     ) {
                         if (response.isSuccessful){
-                            val result = response.body()?.data
-                            showData(result)
                             println(response.body()?.data)
+                            data = response.body()?.data as ArrayList<DataItem>
+                            notifyDataSetChanged()
                         }else{
                             Toast.makeText(
                                 context,
@@ -119,12 +122,5 @@ class Adapter(private val context: Activity, private var data: ArrayList<DataIte
                     }
 
                 })
-        }
-        private fun showData(result: List<DataItem?>?) {
-            updateAdapter(result)
-        }
-
-        private fun updateAdapter(result: List<DataItem?>?) {
-            setData(result as ArrayList<DataItem>)
         }
 }
