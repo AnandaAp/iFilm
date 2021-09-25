@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.anlian.ifilm.api.RetrofitConnection
 import com.anlian.ifilm.controller.Adapter
 import com.anlian.ifilm.databinding.FragmentHomeBinding
+import com.anlian.ifilm.model.DataItem
 import com.anlian.ifilm.model.MovieResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,9 +46,9 @@ class Home : Fragment() {
                     response: Response<MovieResponse>
                 ) {
                     if (response.isSuccessful){
-                        val result = response.body()
+                        val result = response.body()?.data
                         showData(result)
-                        println("ok")
+                        println(response.body()?.data)
                     }else{
                         Toast.makeText(
                             requireActivity(),
@@ -57,16 +58,20 @@ class Home : Fragment() {
                 }
 
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    println("Failed to")
+                    Toast.makeText(
+                        requireActivity(),
+                        t.localizedMessage,
+                        Toast.LENGTH_LONG).show()
                 }
 
             })
     }
-    private fun showData(result: List<MovieResponse?>?) {
+    private fun showData(result: List<DataItem?>?) {
         updateAdapter(result)
     }
 
-    private fun updateAdapter(result: List<MovieResponse?>?) {
-        adapter.setData(result as ArrayList<MovieResponse>)
+    private fun updateAdapter(result: List<DataItem?>?) {
+        adapter.setData(result as ArrayList<DataItem>)
     }
 }

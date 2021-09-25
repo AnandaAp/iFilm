@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.anlian.ifilm.databinding.DetailMovieRecyclerViewBinding
+import com.anlian.ifilm.model.DataItem
 import com.anlian.ifilm.model.MovieResponse
 import java.util.ArrayList
 
-class Adapter(private val context: Activity, private var data: ArrayList<MovieResponse>):
+class Adapter(private val context: Activity, private var data: ArrayList<DataItem>):
     RecyclerView.Adapter<Adapter.ViewHolder>() {
         inner class ViewHolder(val binding: DetailMovieRecyclerViewBinding):
             RecyclerView.ViewHolder(binding.root)
@@ -24,10 +25,10 @@ class Adapter(private val context: Activity, private var data: ArrayList<MovieRe
         @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: Adapter.ViewHolder, position: Int) {
             holder.binding.numberTxt.text = position.toString()
-            holder.binding.titleMovieTxt.text = data.get(position).data?.get(position)?.title
-            holder.binding.genreTxt.text = data.get(position).data?.get(position)?.genre
+            holder.binding.titleMovieTxt.text = data.get(position).title
+            holder.binding.genreTxt.text = data.get(position).genre
             holder.binding.popularityTxt.text = "Rating : ${
-                data.get(position).data?.get(position)?.rating
+                data.get(position).rating
             }"
         }
 
@@ -35,7 +36,7 @@ class Adapter(private val context: Activity, private var data: ArrayList<MovieRe
            return data.size
         }
         @SuppressLint("NotifyDataSetChanged")
-        fun setData(_data : ArrayList<MovieResponse>){
+        fun setData(_data : ArrayList<DataItem>){
             data.clear()
             data = _data
             notifyDataSetChanged()

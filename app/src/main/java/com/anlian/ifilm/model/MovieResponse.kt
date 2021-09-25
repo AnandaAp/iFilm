@@ -19,6 +19,8 @@ data class MovieResponse(
 
 @Parcelize
 data class DataItem(
+	@field:SerializedName("results")
+	val results: List<MovieResponse?>? = null,
 
 	@field:SerializedName("genre")
 	val genre: String? = null,

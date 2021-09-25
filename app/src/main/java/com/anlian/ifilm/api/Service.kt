@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface Service {
-    @GET("get_movie")
+    @GET("restapi.php?function=get_movie")
     fun getMovie(): Call <MovieResponse>
     @FormUrlEncoded
     @POST("restapi.php")
