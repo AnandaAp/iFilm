@@ -9,7 +9,7 @@ import com.anlian.ifilm.databinding.DetailMovieRecyclerViewBinding
 import com.anlian.ifilm.model.MovieResponse
 import java.util.ArrayList
 
-class Adapter(val context: Activity, val data: ArrayList<MovieResponse>):
+class Adapter(private val context: Activity, private var data: ArrayList<MovieResponse>):
     RecyclerView.Adapter<Adapter.ViewHolder>() {
         inner class ViewHolder(val binding: DetailMovieRecyclerViewBinding):
             RecyclerView.ViewHolder(binding.root)
@@ -33,5 +33,11 @@ class Adapter(val context: Activity, val data: ArrayList<MovieResponse>):
 
         override fun getItemCount(): Int {
            return data.size
+        }
+        @SuppressLint("NotifyDataSetChanged")
+        fun setData(_data : ArrayList<MovieResponse>){
+            data.clear()
+            data = _data
+            notifyDataSetChanged()
         }
 }
