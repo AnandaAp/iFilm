@@ -1,18 +1,22 @@
 package com.anlian.ifilm
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anlian.ifilm.api.RetrofitConnection
 import com.anlian.ifilm.controller.Adapter
 import com.anlian.ifilm.databinding.FragmentHomeBinding
 import com.anlian.ifilm.model.DataItem
 import com.anlian.ifilm.model.MovieResponse
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,21 +24,50 @@ import retrofit2.Response
 class Home : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: Adapter
+    private val args: HomeArgs by navArgs()
+    private var loginStatus: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val view = initBinding()
+        loginAuth()
+        adapterStart()
+        moveToProfile()
+        // Inflate the layout for this fragment
+        return view
+    }
+
+    private fun loginAuth() {
+        if(args.email.isNotEmpty()){
+            Glide
+                .with(requireActivity())
+                .load(args.picturePath)
+                .apply(RequestOptions().override(24, 32))
+                .into(binding.profileBtnImg)
+        }
+    }
+
+    private fun moveToProfile() {
+        binding.profileBtn.setOnClickListener{
+            val direction = HomeDirections.actionHome2ToRegisterPage()
+            findNavController().navigate(direction)
+        }
+    }
+
+    private fun initBinding(): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        val view = binding.root
+        return binding.root
+    }
+
+    private fun adapterStart() {
         adapter = Adapter(requireActivity(), arrayListOf())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
         startRetrofit()
         insertData()
-
-        // Inflate the layout for this fragment
-        return view
     }
 
     private fun insertData() {
@@ -80,5 +113,13 @@ class Home : Fragment() {
 
     private fun updateAdapter(result: List<DataItem?>?) {
         adapter.setData(result as ArrayList<DataItem>)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("Check Email", "email: ${args.email}")
+        if (args.email.isNotEmpty()) {
+            loginStatus = true
+        }
     }
 }

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">iFilm</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="movie_add">Add Movie</string>
     <string name="number">number</string>
@@ -16,4 +15,26 @@
     <string name="insert">insert</string>
     <string name="delete">delete</string>
     <string name="save">save</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="start_join">Mulai Bergabung</string>
+    <string name="create_account_detail">buat akunmu sekarang</string>
+    <string name="email">Email</string>
+    <string name="email_example">example : user@gmail.com</string>
+    <string name="password">Password</string>
+    <string name="fullname">Fullname</string>
+    <string name="fullname_detail">Nama Panjang Kamu</string>
+    <string name="sign_in">Sign In</string>
+    <string name="have_an_account">Sudah Punya Akun ?</string>
+
+    <!--    permission  -->
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="directory_permissions">Aplikasi ini membutuhkan izin untuk mengakses penyimpanan kamu</string>
+    <string name="welcome">Selamat Datang</string>
+    <string name="bottom_background">bottom background</string>
+    <string name="top_background">top background</string>
+    <string name="wrong_email">Email atau password yang anda masukan salah!</string>
+    <string name="sign_in_success">Selamat Datang</string>
+    <string name="pick_image_from_directory">pick image from directory</string>
+    <string name="list">List</string>
 </resources>

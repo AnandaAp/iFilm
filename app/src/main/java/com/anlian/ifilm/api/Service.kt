@@ -2,6 +2,9 @@ package com.anlian.ifilm.api
 
 import com.anlian.ifilm.model.DefaultResponse
 import com.anlian.ifilm.model.MovieResponse
+import com.anlian.ifilm.model.ProfileResponse
+import com.anlian.ifilm.model.UploadImageResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -34,4 +37,30 @@ interface Service {
         @Field("rating") rating: String,
         @Query("function") function: String
     ): Call <DefaultResponse>
+
+    @GET("Profile.php?function=get_pengguna_by_id&id={id}")
+    fun getAccountDetails(@Path("id") id: String): Call <ProfileResponse>
+
+    @GET("Profile.php")
+    fun signIn(
+        @Query("function") function: String,
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): Call <ProfileResponse>
+    //    fun signIn(@Path("email") email: String,
+//               @Path("password") password: String): Call <ProfileResponse>
+
+    @FormUrlEncoded
+    @POST("Profile.php")
+    fun insertPengguna(
+        @Field("Name") Name: String,
+        @Field("Email") Email: String,
+        @Field("Password") Password: String,
+        @Field("Profile_Picture_Path") Profile_Picture_Path: String,
+        @Query("function") fungtion: String
+    ): Call <DefaultResponse>
+
+    @Multipart
+    @POST("Profile.php?function=upload_picture")
+    fun uploadFotoPengguna(@Part body: MultipartBody.Part): Call<UploadImageResponse>
 }
