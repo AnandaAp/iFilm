@@ -29,6 +29,7 @@
             android:id="@+id/imageView3"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/bottom_background"
             android:scaleType="fitEnd"
             android:src="@drawable/ic_bottom_bg"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            android:contentDescription="@string/bottom_background" />
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/textView9"
@@ -110,10 +111,16 @@
             app:layout_constraintVertical_bias=".05"
             app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/passwordSignInField"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPassword"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck"
+                android:autofillHints="password" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
