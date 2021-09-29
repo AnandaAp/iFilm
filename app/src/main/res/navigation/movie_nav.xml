@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_nav"
-    app:startDestination="@id/splashScreen">
+    app:startDestination="@id/home2">
 
     <fragment
         android:id="@+id/home2"
@@ -29,6 +29,13 @@
             app:destination="@id/registerPage"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_home2_to_profileDetail"
+            app:destination="@id/profileDetail"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
     </fragment>
@@ -75,15 +82,24 @@
             app:popUpTo="@id/registerPage" />
     </fragment>
     <fragment
-        android:id="@+id/splashScreen"
-        android:name="com.anlian.ifilm.SplashScreen"
-        android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" >
-        <action
-            android:id="@+id/action_splashScreen_to_home2"
-            app:destination="@id/home2"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/home2"
-            app:popUpToInclusive="true" />
+        android:id="@+id/profileDetail"
+        android:name="com.anlian.ifilm.ProfileDetail"
+        android:label="fragment_profile_detail"
+        tools:layout="@layout/fragment_profile_detail" >
+        <argument
+            android:name="userID"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument
+            android:name="fullname"
+            app:argType="string" />
+        <argument
+            android:name="picturePath"
+            app:argType="string" />
     </fragment>
 </navigation>

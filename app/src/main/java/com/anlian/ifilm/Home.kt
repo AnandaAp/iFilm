@@ -1,7 +1,5 @@
 package com.anlian.ifilm
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,57 +24,37 @@ import retrofit2.Response
 class Home : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: Adapter
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var userID: String
     private lateinit var email: String
     private lateinit var password: String
     private lateinit var fullname: String
     private lateinit var picturePath: String
     private var isLogin: Boolean = false
-//    private var loginStatus: Boolean = false
     private val BASE_URL = "http://192.168.1.8/ilist/profiles/pictures/"
     private val TAG = "HOME"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPreferences = requireActivity()
-            .getSharedPreferences(
-                SharedPreferencesData
-                    .SHARED_PREFERENCE_CODE,
-                MODE_PRIVATE
+        checkSessions()
+    }
+
+    private fun checkSessions() {
+        val preferences = SharedPreferencesData(requireActivity())
+        isLogin = preferences
+            .getValueBoolean(
+                SharedPreferencesData.SHARED_PREFERENCE_SESSION_KEY
             )
-        isLogin = sharedPreferences
-            .getBoolean(
-                SharedPreferencesData
-                    .SHARED_PREFERENCE_SESSION_KEY,false)
         if(isLogin){
-            Log.d("LOGIN", "onStart: sudah login")
-            userID = sharedPreferences
-                .getString(
-                    SharedPreferencesData
-                        .SHARED_PREFERENCE_ID_KEY,
-                    "").toString()
-            email = sharedPreferences
-                .getString(
-                    SharedPreferencesData
-                        .SHARED_PREFERENCE_EMAIL_KEY,
-                    "").toString()
-            password = sharedPreferences
-                .getString(
-                    SharedPreferencesData
-                        .SHARED_PREFERENCE_PASSWORD_KEY,
-                    "").toString()
-            fullname = sharedPreferences
-                .getString(
-                    SharedPreferencesData
-                        .SHARED_PREFERENCE_FULLNAME_KEY,
-                    ""
-                ).toString()
-            picturePath = sharedPreferences
-                .getString(
-                    SharedPreferencesData
-                        .SHARED_PREFERENCE_PICTURE_KEY,
-                    "").toString()
+            userID = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_ID_KEY)
+            email = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_EMAIL_KEY)
+            password = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_PASSWORD_KEY)
+            fullname = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_FULLNAME_KEY)
+            picturePath = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_PICTURE_KEY)
         }
     }
 
@@ -97,7 +75,6 @@ class Home : Fragment() {
         if(isLogin){
             Glide
                 .with(requireActivity())
-//                .load("$BASE_URL${args.picturePath}")
                 .load("$BASE_URL$picturePath")
                 .apply(RequestOptions().override(24, 32))
                 .into(binding.profileBtnImg)
@@ -105,9 +82,25 @@ class Home : Fragment() {
     }
 
     private fun moveToProfile() {
-        binding.profileBtn.setOnClickListener{
-            val direction = HomeDirections.actionHome2ToRegisterPage()
-            findNavController().navigate(direction)
+        when(isLogin){
+            true -> {
+                binding.profileBtn.setOnClickListener{
+                    val direction = HomeDirections.actionHome2ToProfileDetail(
+                        userID,
+                        email,
+                        password,
+                        fullname,
+                        picturePath
+                    )
+                    findNavController().navigate(direction)
+                }
+            }
+            false -> {
+                binding.profileBtn.setOnClickListener{
+                    val direction = HomeDirections.actionHome2ToRegisterPage()
+                    findNavController().navigate(direction)
+                }
+            }
         }
     }
 
@@ -168,11 +161,4 @@ class Home : Fragment() {
     private fun updateAdapter(result: List<DataItem?>?) {
         adapter.setData(result as ArrayList<DataItem>)
     }
-
-//    override fun onStart() {
-//        super.onStart()
-//        if (args.email.isNotEmpty()) {
-//            loginStatus = true
-//        }
-//    }
 }

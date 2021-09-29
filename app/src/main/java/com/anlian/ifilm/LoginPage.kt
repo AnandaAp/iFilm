@@ -136,48 +136,82 @@ class LoginPage : Fragment() {
         pass: String,
         picturePath: String
     ) {
-        sharedPreferences = requireActivity()
-            .getSharedPreferences(
+//        sharedPreferences = requireActivity()
+//            .getSharedPreferences(
+//                SharedPreferencesData
+//                    .SHARED_PREFERENCE_CODE,
+//                MODE_PRIVATE
+//            )
+//        val editor = sharedPreferences.edit()
+//        editor
+//            .putString(SharedPreferencesData
+//                .SHARED_PREFERENCE_ID_KEY,
+//                userID)
+//        editor
+//            .putString(
+//                SharedPreferencesData
+//                    .SHARED_PREFERENCE_EMAIL_KEY,
+//                email
+//            )
+//        editor
+//            .putString(
+//                SharedPreferencesData
+//                    .SHARED_PREFERENCE_PASSWORD_KEY,
+//                pass
+//            )
+//        editor
+//            .putString(
+//                SharedPreferencesData
+//                    .SHARED_PREFERENCE_FULLNAME_KEY,
+//                fullname
+//            )
+//        editor
+//            .putString(
+//                SharedPreferencesData
+//                    .SHARED_PREFERENCE_PICTURE_KEY,
+//                picturePath
+//            )
+//        editor
+//            .putBoolean(
+//                SharedPreferencesData
+//                    .SHARED_PREFERENCE_SESSION_KEY,
+//                true
+//            )
+//        editor.apply()
+//        navigateToHomePage()
+        val sharedPreferences = SharedPreferencesData(requireActivity())
+        sharedPreferences
+            .save(
                 SharedPreferencesData
-                    .SHARED_PREFERENCE_CODE,
-                MODE_PRIVATE
+                    .SHARED_PREFERENCE_ID_KEY,
+                userID
             )
-        val editor = sharedPreferences.edit()
-        editor
-            .putString(SharedPreferencesData
-                .SHARED_PREFERENCE_ID_KEY,
-                userID)
-        editor
-            .putString(
-                SharedPreferencesData
-                    .SHARED_PREFERENCE_EMAIL_KEY,
+        sharedPreferences
+            .save(
+                SharedPreferencesData.SHARED_PREFERENCE_EMAIL_KEY,
                 email
             )
-        editor
-            .putString(
-                SharedPreferencesData
-                    .SHARED_PREFERENCE_PASSWORD_KEY,
-                pass
+        sharedPreferences
+            .save(
+                SharedPreferencesData.SHARED_PREFERENCE_PASSWORD_KEY,
+                password
             )
-        editor
-            .putString(
-                SharedPreferencesData
-                    .SHARED_PREFERENCE_FULLNAME_KEY,
+        sharedPreferences
+            .save(
+                SharedPreferencesData.SHARED_PREFERENCE_FULLNAME_KEY,
                 fullname
             )
-        editor
-            .putString(
-                SharedPreferencesData
-                    .SHARED_PREFERENCE_PICTURE_KEY,
+        sharedPreferences
+            .save(
+                SharedPreferencesData.SHARED_PREFERENCE_PICTURE_KEY,
                 picturePath
             )
-        editor
-            .putBoolean(
+        sharedPreferences
+            .save(
                 SharedPreferencesData
                     .SHARED_PREFERENCE_SESSION_KEY,
                 true
             )
-        editor.apply()
         navigateToHomePage()
     }
 

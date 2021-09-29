@@ -38,4 +38,8 @@
     <string name="pick_image_from_directory">pick image from directory</string>
     <string name="list">List</string>
     <string name="empty_input">Mohon Lengkapi Email dan Password Anda</string>
+    <string name="detail_profile">Detail Profile</string>
+    <string name="profile">profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="sign_out">sign out</string>
 </resources>
