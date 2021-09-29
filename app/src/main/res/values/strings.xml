@@ -37,4 +37,5 @@
     <string name="sign_in_success">Selamat Datang</string>
     <string name="pick_image_from_directory">pick image from directory</string>
     <string name="list">List</string>
+    <string name="empty_input">Mohon Lengkapi Email dan Password Anda</string>
 </resources>

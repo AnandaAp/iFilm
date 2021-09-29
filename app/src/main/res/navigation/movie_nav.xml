@@ -31,21 +31,6 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
-        <argument
-            android:name="id"
-            app:argType="string" />
-        <argument
-            android:name="fullname"
-            app:argType="string" />
-        <argument
-            android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
-        <argument
-            android:name="picturePath"
-            app:argType="string" />
     </fragment>
     <dialog
         android:id="@+id/insert"
@@ -74,17 +59,7 @@
         android:id="@+id/loginPage"
         android:name="com.anlian.ifilm.LoginPage"
         android:label="fragment_login_page"
-        tools:layout="@layout/fragment_login_page" >
-        <action
-            android:id="@+id/action_loginPage_to_home2"
-            app:destination="@id/home2"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/home2" />
-    </fragment>
+        tools:layout="@layout/fragment_login_page" />
     <fragment
         android:id="@+id/registerPage"
         android:name="com.anlian.ifilm.RegisterPage"

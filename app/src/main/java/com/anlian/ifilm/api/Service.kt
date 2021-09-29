@@ -47,8 +47,6 @@ interface Service {
         @Query("email") email: String,
         @Query("password") password: String
     ): Call <ProfileResponse>
-    //    fun signIn(@Path("email") email: String,
-//               @Path("password") password: String): Call <ProfileResponse>
 
     @FormUrlEncoded
     @POST("Profile.php")

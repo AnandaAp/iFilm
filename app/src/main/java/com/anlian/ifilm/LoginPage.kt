@@ -1,5 +1,8 @@
 package com.anlian.ifilm
 
+import android.content.Context.MODE_PRIVATE
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.anlian.ifilm.api.RetrofitConnection
+import com.anlian.ifilm.controller.SharedPreferencesData
 import com.anlian.ifilm.databinding.FragmentLoginPageBinding
 import com.anlian.ifilm.model.ProfileResponse
 import retrofit2.Call
@@ -19,102 +22,176 @@ class LoginPage : Fragment() {
     private lateinit var binding: FragmentLoginPageBinding
     private lateinit var email:String
     private lateinit var password:String
-
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = bindngView()
+        val view = bindingView()
         signInProcess()
         return view
     }
 
     private fun signInProcess() {
-        val function = "sign_in"
         binding.signInBtnConfirm.setOnClickListener{
             getInputData() // digunakan untuk mengambil input dari edit text box
-            RetrofitConnection
-                .getService()
-                .signIn(function,email,password)
-                .enqueue(object : Callback<ProfileResponse>{
-                    override fun onResponse(
-                        call: Call<ProfileResponse>,
-                        response: Response<ProfileResponse>
-                    ) {
-                        if (response.isSuccessful){
-                            val email = response
-                                .body()
-                                ?.profile
-                                ?.get(0)
-                                ?.email
-                            val pass = response
-                                .body()
-                                ?.profile
-                                ?.get(0)
-                                ?.password
-                            val fullname = response
-                                .body()
-                                ?.profile
-                                ?.get(0)
-                                ?.name
-                            val picturePath = response
-                                .body()
-                                ?.profile
-                                ?.get(0)
-                                ?.profilePicturePath
-                            val userID = response
-                                .body()
-                                ?.profile
-                                ?.get(0)
-                                ?.iD
-                            val direction = LoginPageDirections
-                                .actionLoginPageToHome2(
-                                    userID!!,
-                                    fullname!!,
-                                    email!!,
-                                    pass!!,
-                                    picturePath!!
-                                )
-                            Toast
-                                .makeText(
-                                    requireActivity(),
-                                    getString(R.string.sign_in_success),
-                                    Toast.LENGTH_LONG)
-                                .show()
-                            Thread.sleep(2000)
-                            findNavController().navigate(direction)
-                        }
-                        else{
-                            Toast
-                                .makeText(
-                                    requireActivity(),
-                                    getString(R.string.wrong_email),
-                                    Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
-                        Toast
-                            .makeText(
-                                requireActivity(),
-                                getString(R.string.wrong_email),
-                                Toast.LENGTH_SHORT)
-                            .show()
-                        Log.d("error sign in", "onFailure: ${t.message}")
-                    }
-
-                })
         }
     }
 
     private fun getInputData() {
         email = binding.emailSignInBoxField.editText?.text.toString().trim()
         password = binding.passwordSignInBoxField.editText?.text.toString().trim()
+        if(email.isEmpty() || password.isEmpty()) {
+            if(email.isEmpty()){
+                binding.emailSignInBoxField.error = getString(R.string.empty_input)
+            }
+            if(password.isEmpty()){
+                binding.passwordSignInBoxField.error = getString(R.string.empty_input)
+            }
+            Toast
+                .makeText(
+                    requireActivity(),
+                    getString(R.string.empty_input),
+                    Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+        else{
+            getUserData()
+        }
     }
 
-    private fun bindngView(): View {
+    fun getUserData() {
+        val function = "sign_in"
+        RetrofitConnection
+            .getService()
+            .signIn(function,email,password)
+            .enqueue(object : Callback<ProfileResponse>{
+                override fun onResponse(
+                    call: Call<ProfileResponse>,
+                    response: Response<ProfileResponse>
+                ) {
+                    if (response.isSuccessful){
+                        val email = response
+                            .body()
+                            ?.profile
+                            ?.get(0)
+                            ?.email
+                        val pass = response
+                            .body()
+                            ?.profile
+                            ?.get(0)
+                            ?.password
+                        val fullname = response
+                            .body()
+                            ?.profile
+                            ?.get(0)
+                            ?.name
+                        val picturePath = response
+                            .body()
+                            ?.profile
+                            ?.get(0)
+                            ?.profilePicturePath
+                        val userID = response
+                            .body()
+                            ?.profile
+                            ?.get(0)
+                            ?.iD
+                        Toast
+                            .makeText(
+                                requireActivity(),
+                                getString(R.string.sign_in_success),
+                                Toast.LENGTH_LONG)
+                            .show()
+                        saveLoginSession(userID!!,fullname!!,email!!, pass!!,picturePath!!)
+                    }
+                    else{
+                        Toast
+                            .makeText(
+                                requireActivity(),
+                                getString(R.string.wrong_email),
+                                Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                    Toast
+                        .makeText(
+                            requireActivity(),
+                            getString(R.string.wrong_email),
+                            Toast.LENGTH_SHORT)
+                        .show()
+                    Log.d("error sign in", "onFailure: ${t.message}")
+                }
+
+            })
+    }
+
+    private fun saveLoginSession(
+        userID: String,
+        fullname: String,
+        email: String,
+        pass: String,
+        picturePath: String
+    ) {
+        sharedPreferences = requireActivity()
+            .getSharedPreferences(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_CODE,
+                MODE_PRIVATE
+            )
+        val editor = sharedPreferences.edit()
+        editor
+            .putString(SharedPreferencesData
+                .SHARED_PREFERENCE_ID_KEY,
+                userID)
+        editor
+            .putString(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_EMAIL_KEY,
+                email
+            )
+        editor
+            .putString(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_PASSWORD_KEY,
+                pass
+            )
+        editor
+            .putString(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_FULLNAME_KEY,
+                fullname
+            )
+        editor
+            .putString(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_PICTURE_KEY,
+                picturePath
+            )
+        editor
+            .putBoolean(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_SESSION_KEY,
+                true
+            )
+        editor.apply()
+        navigateToHomePage()
+    }
+
+    private fun navigateToHomePage() {
+        Thread.sleep(1000)
+        val intent = Intent(
+            requireActivity(),
+            MainActivity::class.java
+        )
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
+    private fun bindingView(): View {
         binding = FragmentLoginPageBinding.inflate(layoutInflater)
         return binding.root
     }

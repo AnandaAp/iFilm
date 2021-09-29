@@ -136,7 +136,7 @@ class RegisterPage : Fragment(),EasyPermissions.PermissionCallbacks {
         val request = RequestBody.create("image/*".toMediaTypeOrNull(), stream.readBytes()) // read all bytes using kotlin extension
         val filePart = MultipartBody.Part.createFormData(
             "file",
-            "$fullname.jpg",
+            "$email.jpg",
             request
         )
         RetrofitConnection
@@ -150,12 +150,6 @@ class RegisterPage : Fragment(),EasyPermissions.PermissionCallbacks {
                     if (response.isSuccessful){
                         path = response.body()?.picturePath.toString()
                         uploadUserData(fullname,email,pass,path)
-//                                Toast.makeText(
-//                                    requireActivity(),
-//                                    "Sign Up Sukses",
-//                                    Toast.LENGTH_LONG
-//                                ).show()
-//                                findNavController().navigate(R.id.action_registerPage_to_loginPage)
                     }else{
                         Toast.makeText(
                             requireActivity(),

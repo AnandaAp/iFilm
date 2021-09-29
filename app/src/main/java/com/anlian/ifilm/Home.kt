@@ -1,17 +1,19 @@
 package com.anlian.ifilm
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anlian.ifilm.api.RetrofitConnection
 import com.anlian.ifilm.controller.Adapter
+import com.anlian.ifilm.controller.SharedPreferencesData
 import com.anlian.ifilm.databinding.FragmentHomeBinding
 import com.anlian.ifilm.model.DataItem
 import com.anlian.ifilm.model.MovieResponse
@@ -24,15 +26,66 @@ import retrofit2.Response
 class Home : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: Adapter
-    private val args: HomeArgs by navArgs()
-    private var loginStatus: Boolean = false
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var userID: String
+    private lateinit var email: String
+    private lateinit var password: String
+    private lateinit var fullname: String
+    private lateinit var picturePath: String
+    private var isLogin: Boolean = false
+//    private var loginStatus: Boolean = false
+    private val BASE_URL = "http://192.168.1.8/ilist/profiles/pictures/"
+    private val TAG = "HOME"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferences = requireActivity()
+            .getSharedPreferences(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_CODE,
+                MODE_PRIVATE
+            )
+        isLogin = sharedPreferences
+            .getBoolean(
+                SharedPreferencesData
+                    .SHARED_PREFERENCE_SESSION_KEY,false)
+        if(isLogin){
+            Log.d("LOGIN", "onStart: sudah login")
+            userID = sharedPreferences
+                .getString(
+                    SharedPreferencesData
+                        .SHARED_PREFERENCE_ID_KEY,
+                    "").toString()
+            email = sharedPreferences
+                .getString(
+                    SharedPreferencesData
+                        .SHARED_PREFERENCE_EMAIL_KEY,
+                    "").toString()
+            password = sharedPreferences
+                .getString(
+                    SharedPreferencesData
+                        .SHARED_PREFERENCE_PASSWORD_KEY,
+                    "").toString()
+            fullname = sharedPreferences
+                .getString(
+                    SharedPreferencesData
+                        .SHARED_PREFERENCE_FULLNAME_KEY,
+                    ""
+                ).toString()
+            picturePath = sharedPreferences
+                .getString(
+                    SharedPreferencesData
+                        .SHARED_PREFERENCE_PICTURE_KEY,
+                    "").toString()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         val view = initBinding()
+        Log.d(TAG, "sudah login: $isLogin")
         loginAuth()
         adapterStart()
         moveToProfile()
@@ -41,10 +94,11 @@ class Home : Fragment() {
     }
 
     private fun loginAuth() {
-        if(args.email.isNotEmpty()){
+        if(isLogin){
             Glide
                 .with(requireActivity())
-                .load(args.picturePath)
+//                .load("$BASE_URL${args.picturePath}")
+                .load("$BASE_URL$picturePath")
                 .apply(RequestOptions().override(24, 32))
                 .into(binding.profileBtnImg)
         }
@@ -57,7 +111,7 @@ class Home : Fragment() {
         }
     }
 
-    private fun initBinding(): View? {
+    private fun initBinding(): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -115,11 +169,10 @@ class Home : Fragment() {
         adapter.setData(result as ArrayList<DataItem>)
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d("Check Email", "email: ${args.email}")
-        if (args.email.isNotEmpty()) {
-            loginStatus = true
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        if (args.email.isNotEmpty()) {
+//            loginStatus = true
+//        }
+//    }
 }
