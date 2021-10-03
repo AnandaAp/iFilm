@@ -49,6 +49,15 @@ interface Service {
     ): Call <ProfileResponse>
 
     @FormUrlEncoded
+    @POST("restapi.php")
+    fun updatePassword(
+        @Field("id") id: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Query("function") function: String
+    ): Call <DefaultResponse>
+
+    @FormUrlEncoded
     @POST("Profile.php")
     fun insertPengguna(
         @Field("Name") Name: String,

@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.anlian.ifilm.controller.SharedPreferencesData
 import com.anlian.ifilm.databinding.FragmentProfileDetailBinding
 import kotlinx.android.synthetic.main.fragment_profile_detail.*
 
-class ProfileDetail : Fragment() {
+class ProfilePage : Fragment() {
     private lateinit var binding: FragmentProfileDetailBinding
-    private val args: ProfileDetailArgs by navArgs()
+    private val args: ProfilePageArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +26,23 @@ class ProfileDetail : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        moveToDetailProfile()
         signOut()
+    }
+
+    private fun moveToDetailProfile(){
+        val userID = args.userID
+        val email = args.email
+        val password = args.password
+        val fullname = args.fullname
+        val picturePath = args.picturePath
+        detailProfileBtn.setOnClickListener{
+            val direction = ProfilePageDirections
+                .actionProfilePageToDetailProfile(
+                    userID,email,password,picturePath,fullname
+                )
+            findNavController().navigate(direction)
+        }
     }
 
     private fun signOut() {
@@ -38,7 +55,7 @@ class ProfileDetail : Fragment() {
         }
     }
 
-    fun bindingView(){
+    private fun bindingView(){
         binding = FragmentProfileDetailBinding.inflate(layoutInflater)
     }
 }

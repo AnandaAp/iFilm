@@ -38,26 +38,6 @@ class Home : Fragment() {
         checkSessions()
     }
 
-    private fun checkSessions() {
-        val preferences = SharedPreferencesData(requireActivity())
-        isLogin = preferences
-            .getValueBoolean(
-                SharedPreferencesData.SHARED_PREFERENCE_SESSION_KEY
-            )
-        if(isLogin){
-            userID = preferences
-                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_ID_KEY)
-            email = preferences
-                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_EMAIL_KEY)
-            password = preferences
-                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_PASSWORD_KEY)
-            fullname = preferences
-                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_FULLNAME_KEY)
-            picturePath = preferences
-                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_PICTURE_KEY)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,6 +58,26 @@ class Home : Fragment() {
                 .load("$BASE_URL$picturePath")
                 .apply(RequestOptions().override(24, 32))
                 .into(binding.profileBtnImg)
+        }
+    }
+
+    private fun checkSessions() {
+        val preferences = SharedPreferencesData(requireActivity())
+        isLogin = preferences
+            .getValueBoolean(
+                SharedPreferencesData.SHARED_PREFERENCE_SESSION_KEY
+            )
+        if(isLogin){
+            userID = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_ID_KEY)
+            email = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_EMAIL_KEY)
+            password = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_PASSWORD_KEY)
+            fullname = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_FULLNAME_KEY)
+            picturePath = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_PICTURE_KEY)
         }
     }
 
@@ -145,15 +145,16 @@ class Home : Fragment() {
                 }
 
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    println("Failed to")
-                    Toast.makeText(
-                        requireActivity(),
-                        t.localizedMessage,
-                        Toast.LENGTH_LONG).show()
+                    println("There is no data in database or check your internet connection")
+//                    Toast.makeText(
+//                        requireActivity(),
+//                        t.localizedMessage,
+//                        Toast.LENGTH_LONG).show()
                 }
 
             })
     }
+
     private fun showData(result: List<DataItem?>?) {
         updateAdapter(result)
     }

@@ -42,4 +42,14 @@
     <string name="profile">profile</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="sign_out">sign out</string>
+    <string name="fullname_txt">Fullname :</string>
+    <string name="email_detail">Email :</string>
+    <string name="password_detail" >Password :</string>
+    <string name="change_password">Ubah Password</string>
+    <string name="forgot_password">Lupa Password</string>
+    <string name="old_password">Password Lama</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="retype_password">Retype password</string>
+    <string name="error_input_password">Password tidak boleh kosong</string>
 </resources>

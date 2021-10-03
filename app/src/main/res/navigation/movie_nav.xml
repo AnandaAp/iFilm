@@ -83,7 +83,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileDetail"
-        android:name="com.anlian.ifilm.ProfileDetail"
+        android:name="com.anlian.ifilm.ProfilePage"
         android:label="fragment_profile_detail"
         tools:layout="@layout/fragment_profile_detail" >
         <argument
@@ -94,6 +94,69 @@
             app:argType="string" />
         <argument
             android:name="password"
+            app:argType="string" />
+        <argument
+            android:name="fullname"
+            app:argType="string" />
+        <argument
+            android:name="picturePath"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_profilePage_to_detailProfile"
+            app:destination="@id/detailProfile"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailProfile"
+        android:name="com.anlian.ifilm.DetailProfile"
+        android:label="fragment_detail_profile"
+        tools:layout="@layout/fragment_detail_profile" >
+        <argument
+            android:name="userID"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument
+            android:name="picturePath"
+            app:argType="string" />
+        <argument
+            android:name="fullname"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailProfile_to_changePassword"
+            app:destination="@id/changePassword"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePassword"
+        android:name="com.anlian.ifilm.ChangePassword"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" >
+        <argument
+            android:name="userID"
+            app:argType="string" />
+        <argument
+            android:name="oldPassword"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_changePassword_to_detailProfile"
+            app:destination="@id/detailProfile"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <argument
+            android:name="email"
             app:argType="string" />
         <argument
             android:name="fullname"
