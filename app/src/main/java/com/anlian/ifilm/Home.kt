@@ -17,6 +17,12 @@ import com.anlian.ifilm.model.DataItem
 import com.anlian.ifilm.model.MovieResponse
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.iid.FirebaseInstanceIdReceiver
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,6 +35,7 @@ class Home : Fragment() {
     private lateinit var password: String
     private lateinit var fullname: String
     private lateinit var picturePath: String
+    private lateinit var token: String
     private var isLogin: Boolean = false
     private val BASE_URL = "http://192.168.1.8/ilist/profiles/pictures/"
     private val TAG = "HOME"
@@ -36,6 +43,13 @@ class Home : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkSessions()
+        if (checkGooglePlayServices()) {
+            token = FirebaseMessaging.getInstance().token.toString()
+
+        } else {
+            //You won't be able to send notifications to this device
+            Log.w(TAG, "Device doesn't have google play services")
+        }
     }
 
     override fun onCreateView(
@@ -47,6 +61,7 @@ class Home : Fragment() {
         loginAuth()
         adapterStart()
         moveToProfile()
+
         // Inflate the layout for this fragment
         return view
     }
@@ -161,5 +176,22 @@ class Home : Fragment() {
 
     private fun updateAdapter(result: List<DataItem?>?) {
         adapter.setData(result as ArrayList<DataItem>)
+    }
+
+    private fun checkGooglePlayServices(): Boolean {
+        // 1
+        val status = GoogleApiAvailability
+            .getInstance()
+            .isGooglePlayServicesAvailable(requireActivity())
+        // 2
+        return if (status != ConnectionResult.SUCCESS) {
+            Log.e(TAG, "Error")
+            // ask user to update google play services and manage the error.
+            false
+        } else {
+            // 3
+            Log.i(TAG, "Google play services updated")
+            true
+        }
     }
 }

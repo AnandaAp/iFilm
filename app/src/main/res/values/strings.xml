@@ -52,4 +52,5 @@
     <string name="new_password">New password</string>
     <string name="retype_password">Retype password</string>
     <string name="error_input_password">Password tidak boleh kosong</string>
+    <string name="description">description</string>
 </resources>
