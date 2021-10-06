@@ -1,5 +1,6 @@
 package com.anlian.ifilm
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,10 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.iid.FirebaseInstanceIdReceiver
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,7 +42,10 @@ class Home : Fragment() {
         super.onCreate(savedInstanceState)
         checkSessions()
         if (checkGooglePlayServices()) {
-            token = FirebaseMessaging.getInstance().token.toString()
+            token = FirebaseMessaging
+                .getInstance()
+                .token
+                .toString()
 
         } else {
             //You won't be able to send notifications to this device
@@ -61,9 +62,16 @@ class Home : Fragment() {
         loginAuth()
         adapterStart()
         moveToProfile()
-
+        moveToSead()
         // Inflate the layout for this fragment
         return view
+    }
+
+    private fun moveToSead() {
+        binding.addNotificationBtn.setOnClickListener{
+            findNavController()
+                .navigate(R.id.action_home2_to_seaderPushNotification)
+        }
     }
 
     private fun loginAuth() {

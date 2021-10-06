@@ -38,13 +38,14 @@
     <string name="pick_image_from_directory">pick image from directory</string>
     <string name="list">List</string>
     <string name="empty_input">Mohon Lengkapi Email dan Password Anda</string>
+    <string name="empty_notification">Mohon Lengkapi Data</string>
     <string name="detail_profile">Detail Profile</string>
     <string name="profile">profile</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="sign_out">sign out</string>
     <string name="fullname_txt">Fullname :</string>
     <string name="email_detail">Email :</string>
-    <string name="password_detail" >Password :</string>
+    <string name="password_detail">Password :</string>
     <string name="change_password">Ubah Password</string>
     <string name="forgot_password">Lupa Password</string>
     <string name="old_password">Password Lama</string>
@@ -53,4 +54,13 @@
     <string name="retype_password">Retype password</string>
     <string name="error_input_password">Password tidak boleh kosong</string>
     <string name="description">description</string>
+    <string name="add_notification">Add Notification</string>
+    <string name="push_notification">Push Notification</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="message">Message</string>
+    <string name="short_message">Tuliskan Pesan Singkatmu</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="msg_token_fmt">token formet</string>
+    <string name="msg_subscribed">try to subscribe to topic</string>
+    <string name="msg_subscribe_failed">cannot subscripe to topik</string>
 </resources>

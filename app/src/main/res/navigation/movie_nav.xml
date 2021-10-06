@@ -38,6 +38,13 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_home2_to_seaderPushNotification"
+            app:destination="@id/seaderPushNotification"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <dialog
         android:id="@+id/insert"
@@ -167,4 +174,9 @@
             android:name="picturePath"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/seaderPushNotification"
+        android:name="com.anlian.ifilm.SeaderPushNotification"
+        android:label="fragment_seader_push_notification"
+        tools:layout="@layout/fragment_seader_push_notification" />
 </navigation>

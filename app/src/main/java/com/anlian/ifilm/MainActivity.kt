@@ -1,16 +1,34 @@
 package com.anlian.ifilm
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
+import android.util.AttributeSet
+import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 
+const val topic = "greeting"
 class MainActivity : AppCompatActivity() {
 //    private var backPressedTime:Long = 0
 //    lateinit var backToast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        subscribeTopic()
         setContentView(R.layout.activity_main)
+    }
+
+    private fun subscribeTopic() {
+        Firebase.messaging.subscribeToTopic(topic)
+            .addOnCompleteListener { task ->
+                var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.msg_subscribe_failed)
+                }
+                Log.d(TAG, msg)
+            }
     }
 
 //    override fun onBackPressed() {

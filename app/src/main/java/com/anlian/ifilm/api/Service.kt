@@ -64,10 +64,21 @@ interface Service {
         @Field("Email") Email: String,
         @Field("Password") Password: String,
         @Field("Profile_Picture_Path") Profile_Picture_Path: String,
-        @Query("function") fungtion: String
+        @Query("function") function: String
     ): Call <DefaultResponse>
 
     @Multipart
     @POST("Profile.php?function=upload_picture")
     fun uploadFotoPengguna(@Part body: MultipartBody.Part): Call<UploadImageResponse>
+
+    @FormUrlEncoded
+    @POST("Firebase.php")
+    fun sendPushNotification(
+        @Field("fcm_token") fcm_token: String,
+        @Field("title") title : String,
+        @Field("message") message : String,
+        @Field("id") id : String,
+        @Field("action") action: String,
+        @Query("function") function: String
+    ): Call <DefaultResponse>
 }
