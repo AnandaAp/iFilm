@@ -1,9 +1,6 @@
 package com.anlian.ifilm.api
 
-import com.anlian.ifilm.model.DefaultResponse
-import com.anlian.ifilm.model.MovieResponse
-import com.anlian.ifilm.model.ProfileResponse
-import com.anlian.ifilm.model.UploadImageResponse
+import com.anlian.ifilm.model.*
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -77,8 +74,6 @@ interface Service {
         @Field("fcm_token") fcm_token: String,
         @Field("title") title : String,
         @Field("message") message : String,
-        @Field("id") id : String,
-        @Field("action") action: String,
         @Query("function") function: String
-    ): Call <DefaultResponse>
+    ): Call <PushNotificationResponse>
 }
