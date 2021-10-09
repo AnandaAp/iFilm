@@ -13,10 +13,12 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
+import androidx.core.app.NotificationManagerCompat
 import com.anlian.ifilm.MainActivity
 import com.anlian.ifilm.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlin.random.Random
 
 const val channelId = "313"
 const val channelName = "iFilm_notification"
@@ -25,21 +27,15 @@ class CloudMessagingService: FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-//        if(remoteMessage.notification != null){
-//            Log.d(TAG, "ada notifikasi")
-//            val title = remoteMessage.notification!!.title.toString()
-//            val body = remoteMessage.notification!!.body.toString()
-//            Log.d(TAG, "title: $title")
-//            Log.d(TAG, "body: $body")
-//            showNotification(title, body)
-//            generateMessage(remoteMessage
-//                .notification!!
-//                .title!!,
-//                remoteMessage
-//                    .notification!!
-//                    .body!!)
-//        }
-//        // Check if message contains a data payload.
+        if(remoteMessage.notification != null){
+            Log.d(TAG, "ada notifikasi")
+            val title = remoteMessage.notification!!.title.toString()
+            val body = remoteMessage.notification!!.body.toString()
+            Log.d(TAG, "title: $title")
+            Log.d(TAG, "body: $body")
+            showNotification(title, body)
+        }
+        // Check if message contains a data payload.
 //        if (remoteMessage.data.isNotEmpty()) {
 //            Log.d(TAG, "ada data payload")
 //            val title = remoteMessage.notification!!.title.toString()
@@ -52,7 +48,6 @@ class CloudMessagingService: FirebaseMessagingService() {
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
             showNotification(it.title.toString(),it.body.toString())
-//            generateMessage(it.title.toString(),it.body.toString())
         }
     }
 
@@ -80,11 +75,12 @@ class CloudMessagingService: FirebaseMessagingService() {
             notificationCannel.description = message
             notificationManager.createNotificationChannel(notificationCannel)
         }
-        notificationManager.notify(314, builder.build())
-//        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
-//            notify(313, builder.build())
-//        }
+//        notificationManager.notify(314, builder.build())
+        with(NotificationManagerCompat.from(this)) {
+//             notificationId is a unique int for each notification that you must define
+            notify(314, builder.build())
+            notificationManager.notify(314, builder.build())
+        }
     }
 
     override fun onNewToken(token: String) {
