@@ -22,7 +22,7 @@ class RetrofitConnection {
 //            .build()
 //    }
     companion object {
-        private val BASE_URL = "http://192.168.1.8/iList/"
+        private const val BASE_URL = "http://192.168.1.8/iList/"
         private fun getInterseptor(): OkHttpClient {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
@@ -37,6 +37,6 @@ class RetrofitConnection {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-        fun getService() = getRetrofit().create(Service::class.java)
+        fun getService(): Service = getRetrofit().create(Service::class.java)
     }
 }

@@ -5,26 +5,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.anlian.ifilm.api.RetrofitConnection
+import com.anlian.ifilm.architecture.MainView
+import com.anlian.ifilm.architecture.Presenter
 import com.anlian.ifilm.controller.Adapter
 import com.anlian.ifilm.controller.SharedPreferencesData
 import com.anlian.ifilm.databinding.FragmentHomeBinding
 import com.anlian.ifilm.model.DataItem
-import com.anlian.ifilm.model.MovieResponse
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.messaging.FirebaseMessaging
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class Home : Fragment() {
+class Home : Fragment(), MainView {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: Adapter
     private lateinit var userID: String
@@ -56,21 +52,34 @@ class Home : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = initBinding()
+        initBinding()
         Log.d(TAG, "sudah login: $isLogin")
-        loginAuth()
-        adapterStart()
-        moveToProfile()
-        moveToSead()
         // Inflate the layout for this fragment
-        return view
+        return binding.root
     }
 
-    private fun moveToSead() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loginAuth()
+        Presenter(this).getData()
+        moveToProfile()
+        moveToSead()
+    }
+
+    override fun moveToSead() {
         binding.addNotificationBtn.setOnClickListener{
             findNavController()
                 .navigate(R.id.action_home2_to_seaderPushNotification)
         }
+    }
+
+    override fun resultSuccess(result: List<DataItem?>?) {
+        adapterStart()
+        showData(result)
+    }
+
+    override fun resultFailed(throwable: Throwable) {
+        Log.d(TAG, "resultFailed: data tidak berhasil di ambil")
     }
 
     private fun loginAuth() {
@@ -103,7 +112,7 @@ class Home : Fragment() {
         }
     }
 
-    private fun moveToProfile() {
+    override fun moveToProfile() {
         when(isLogin){
             true -> {
                 binding.profileBtn.setOnClickListener{
@@ -126,62 +135,22 @@ class Home : Fragment() {
         }
     }
 
-    private fun initBinding(): View {
+    private fun initBinding() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        return binding.root
     }
 
-    private fun adapterStart() {
+    override fun adapterStart() {
         adapter = Adapter(requireActivity(), arrayListOf())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerView.adapter = adapter
-        startRetrofit()
         insertData()
     }
 
-    private fun insertData() {
-        binding.addMovieBtn.setOnClickListener{
-            findNavController().navigate(R.id.action_home2_to_insert)
-        }
-    }
-
-    private fun startRetrofit() {
-        RetrofitConnection
-            .getService()
-            .getMovie()
-            .enqueue(object : Callback<MovieResponse>{
-                override fun onResponse(
-                    call: Call<MovieResponse>,
-                    response: Response<MovieResponse>
-                ) {
-                    if (response.isSuccessful){
-                        val result = response.body()?.data
-                        showData(result)
-                        println(response.body()?.data)
-                    }else{
-                        Toast.makeText(
-                            requireActivity(),
-                            "Reponse Gagal",
-                            Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    println("There is no data in database or check your internet connection")
-//                    Toast.makeText(
-//                        requireActivity(),
-//                        t.localizedMessage,
-//                        Toast.LENGTH_LONG).show()
-                }
-
-            })
-    }
-
-    private fun showData(result: List<DataItem?>?) {
+    override fun showData(result: List<DataItem?>?) {
         updateAdapter(result)
     }
 
-    private fun updateAdapter(result: List<DataItem?>?) {
+    override fun updateAdapter(result: List<DataItem?>?) {
         adapter.setData(result as ArrayList<DataItem>)
     }
 
@@ -199,6 +168,12 @@ class Home : Fragment() {
             // 3
             Log.i(TAG, "Google play services updated")
             true
+        }
+    }
+
+    override fun insertData() {
+        binding.addMovieBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_home2_to_insert)
         }
     }
 }
