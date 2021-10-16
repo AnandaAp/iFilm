@@ -115,6 +115,13 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_profileDetail_to_editProfile"
+            app:destination="@id/editProfile"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/detailProfile"
@@ -179,4 +186,13 @@
         android:name="com.anlian.ifilm.SeaderPushNotification"
         android:label="fragment_seader_push_notification"
         tools:layout="@layout/fragment_seader_push_notification" />
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.anlian.ifilm.EditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -27,6 +27,7 @@ class ProfilePage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         moveToDetailProfile()
+        moveToEditProfile()
         signOut()
     }
 
@@ -57,5 +58,13 @@ class ProfilePage : Fragment() {
 
     private fun bindingView(){
         binding = FragmentProfileDetailBinding.inflate(layoutInflater)
+    }
+    private fun moveToEditProfile(){
+        editProfileBtn.setOnClickListener {
+            val email = args.email
+            val direction = ProfilePageDirections.actionProfileDetailToEditProfile(email)
+            findNavController()
+                .navigate(direction)
+        }
     }
 }
