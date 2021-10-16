@@ -122,6 +122,8 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <argument android:name="hardwareID"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailProfile"
@@ -192,6 +194,9 @@
         tools:layout="@layout/fragment_edit_profile" >
         <argument
             android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="hardwareID"
             app:argType="string" />
     </fragment>
 </navigation>

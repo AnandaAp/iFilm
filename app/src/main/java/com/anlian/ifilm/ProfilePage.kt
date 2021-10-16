@@ -62,7 +62,9 @@ class ProfilePage : Fragment() {
     private fun moveToEditProfile(){
         editProfileBtn.setOnClickListener {
             val id = args.userID
-            val direction = ProfilePageDirections.actionProfileDetailToEditProfile(id)
+            val hardwareID = args.hardwareID
+            val direction = ProfilePageDirections
+                .actionProfileDetailToEditProfile(id,hardwareID)
             findNavController()
                 .navigate(direction)
         }

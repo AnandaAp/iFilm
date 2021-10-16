@@ -23,6 +23,9 @@ data class ProfileItem(
 	@field:SerializedName("Email")
 	val email: String? = null,
 
+	@field:SerializedName("hardwareID")
+	val hardwareID: String? = null,
+
 	@field:SerializedName("Profile_Picture_Path")
 	val profilePicturePath: String? = null,
 

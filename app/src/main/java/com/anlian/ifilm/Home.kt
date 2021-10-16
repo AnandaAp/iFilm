@@ -29,6 +29,7 @@ class Home : Fragment(), MainView {
     private lateinit var fullname: String
     private lateinit var picturePath: String
     private lateinit var token: String
+    private lateinit var hardwareID: String
     private var isLogin: Boolean = false
     private val BASE_URL = "http://192.168.1.8/ilist/profiles/pictures/"
     private val TAG = "HOME"
@@ -109,6 +110,8 @@ class Home : Fragment(), MainView {
                 .getValueString(SharedPreferencesData.SHARED_PREFERENCE_FULLNAME_KEY)
             picturePath = preferences
                 .getValueString(SharedPreferencesData.SHARED_PREFERENCE_PICTURE_KEY)
+            hardwareID = preferences
+                .getValueString(SharedPreferencesData.SHARED_PREFERENCE_HARDWARE_KEY)
         }
     }
 
@@ -121,7 +124,8 @@ class Home : Fragment(), MainView {
                         email,
                         password,
                         fullname,
-                        picturePath
+                        picturePath,
+                        hardwareID
                     )
                     findNavController().navigate(direction)
                 }

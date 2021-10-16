@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import com.anlian.ifilm.architecture.EditProfilePresenter
 import com.anlian.ifilm.architecture.EditProfileView
 import com.anlian.ifilm.databinding.FragmentEditProfileBinding
-import com.anlian.ifilm.model.DefaultResponse
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
 const val function = "addHardwareID"
@@ -54,6 +53,19 @@ class EditProfile : Fragment(), EditProfileView {
                         .ANDROID_ID)
             hardwareBoxField.editText?.hint = hardwareID
             EditProfilePresenter(this).senData(id,hardwareID,function)
+        }
+    }
+
+    override fun onStart() {
+        checkHardwareID()
+        super.onStart()
+    }
+
+    override fun checkHardwareID() {
+        val hardwareID = args.hardwareID
+        Log.d(TAG, "checkHardwareID: $hardwareID")
+        if(hardwareID.isNotBlank()) {
+            hardwareField.hint = hardwareID
         }
     }
 

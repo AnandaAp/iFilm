@@ -1,8 +1,6 @@
 package com.anlian.ifilm
 
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,7 +20,6 @@ class LoginPage : Fragment() {
     private lateinit var binding: FragmentLoginPageBinding
     private lateinit var email:String
     private lateinit var password:String
-    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,13 +95,19 @@ class LoginPage : Fragment() {
                             ?.profile
                             ?.get(0)
                             ?.iD
+                        val hardwareID = response
+                            .body()
+                            ?.profile
+                            ?.get(0)
+                            ?.hardwareID
+                            .toString()
                         Toast
                             .makeText(
                                 requireActivity(),
                                 getString(R.string.sign_in_success),
                                 Toast.LENGTH_LONG)
                             .show()
-                        saveLoginSession(userID!!,fullname!!,email!!, pass!!,picturePath!!)
+                        saveLoginSession(userID!!,fullname!!,email!!, pass!!,picturePath!!,hardwareID)
                     }
                     else{
                         Toast
@@ -134,51 +137,9 @@ class LoginPage : Fragment() {
         fullname: String,
         email: String,
         pass: String,
-        picturePath: String
+        picturePath: String,
+        hardwareID: String
     ) {
-//        sharedPreferences = requireActivity()
-//            .getSharedPreferences(
-//                SharedPreferencesData
-//                    .SHARED_PREFERENCE_CODE,
-//                MODE_PRIVATE
-//            )
-//        val editor = sharedPreferences.edit()
-//        editor
-//            .putString(SharedPreferencesData
-//                .SHARED_PREFERENCE_ID_KEY,
-//                userID)
-//        editor
-//            .putString(
-//                SharedPreferencesData
-//                    .SHARED_PREFERENCE_EMAIL_KEY,
-//                email
-//            )
-//        editor
-//            .putString(
-//                SharedPreferencesData
-//                    .SHARED_PREFERENCE_PASSWORD_KEY,
-//                pass
-//            )
-//        editor
-//            .putString(
-//                SharedPreferencesData
-//                    .SHARED_PREFERENCE_FULLNAME_KEY,
-//                fullname
-//            )
-//        editor
-//            .putString(
-//                SharedPreferencesData
-//                    .SHARED_PREFERENCE_PICTURE_KEY,
-//                picturePath
-//            )
-//        editor
-//            .putBoolean(
-//                SharedPreferencesData
-//                    .SHARED_PREFERENCE_SESSION_KEY,
-//                true
-//            )
-//        editor.apply()
-//        navigateToHomePage()
         val sharedPreferences = SharedPreferencesData(requireActivity())
         sharedPreferences
             .save(
@@ -194,7 +155,7 @@ class LoginPage : Fragment() {
         sharedPreferences
             .save(
                 SharedPreferencesData.SHARED_PREFERENCE_PASSWORD_KEY,
-                password
+                pass
             )
         sharedPreferences
             .save(
@@ -211,6 +172,11 @@ class LoginPage : Fragment() {
                 SharedPreferencesData
                     .SHARED_PREFERENCE_SESSION_KEY,
                 true
+            )
+        sharedPreferences
+            .save(
+                SharedPreferencesData.SHARED_PREFERENCE_HARDWARE_KEY,
+                hardwareID
             )
         navigateToHomePage()
     }
