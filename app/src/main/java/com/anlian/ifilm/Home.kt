@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anlian.ifilm.architecture.MainView
-import com.anlian.ifilm.architecture.Presenter
+import com.anlian.ifilm.architecture.HomePresenter
 import com.anlian.ifilm.controller.Adapter
 import com.anlian.ifilm.controller.SharedPreferencesData
 import com.anlian.ifilm.databinding.FragmentHomeBinding
@@ -61,7 +61,7 @@ class Home : Fragment(), MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loginAuth()
-        Presenter(this).getData()
+        HomePresenter(this).getData()
         moveToProfile()
         moveToSead()
     }

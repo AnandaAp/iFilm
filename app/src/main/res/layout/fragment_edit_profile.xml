@@ -42,6 +42,7 @@
             app:layout_constraintWidth_percent=".8">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hardwareField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"

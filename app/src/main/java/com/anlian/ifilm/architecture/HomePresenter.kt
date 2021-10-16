@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Presenter(private var view: MainView) {
+class HomePresenter(private var view: MainView) {
     fun getData(){
         RetrofitConnection
             .getService()

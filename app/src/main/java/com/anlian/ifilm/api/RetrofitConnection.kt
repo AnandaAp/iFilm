@@ -23,6 +23,7 @@ class RetrofitConnection {
 //    }
     companion object {
         private const val BASE_URL = "http://192.168.1.8/iList/"
+        private const val BASE_URL_RUMAH = "http://192.168.1.2/iList/"
         private fun getInterseptor(): OkHttpClient {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
@@ -32,7 +33,7 @@ class RetrofitConnection {
         }
         private fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL_RUMAH)
                 .client(getInterseptor())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

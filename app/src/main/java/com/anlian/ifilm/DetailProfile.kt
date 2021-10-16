@@ -38,15 +38,17 @@ class DetailProfile : Fragment() {
         fullname: String,
         picturePath: String
     ) {
-        val direction = DetailProfileDirections
-            .actionDetailProfileToChangePassword(
-                userID,
-                password,
-                email,
-                fullname,
-                picturePath
-            )
-        findNavController().navigate(direction)
+        changePasswordBtn.setOnClickListener {
+            val direction = DetailProfileDirections
+                .actionDetailProfileToChangePassword(
+                    userID,
+                    password,
+                    email,
+                    fullname,
+                    picturePath
+                )
+            findNavController().navigate(direction)
+        }
     }
 
     private fun bindData() {

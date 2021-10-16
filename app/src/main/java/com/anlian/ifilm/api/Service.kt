@@ -76,4 +76,12 @@ interface Service {
         @Field("message") message : String,
         @Query("function") function: String
     ): Call <PushNotificationResponse>
+
+    @FormUrlEncoded
+    @POST("Profile.php")
+    fun addHardwareID(
+        @Field("id") id: String,
+        @Field("hardwareID") hardwareID : String,
+        @Query("function") function: String
+    ): Call <DefaultResponse>
 }
