@@ -84,4 +84,12 @@ interface Service {
         @Field("hardwareID") hardwareID : String,
         @Query("function") function: String
     ): Call <DefaultResponse>
+
+    @FormUrlEncoded
+    @POST("Profile.php")
+    fun signInAddHardwareID(
+        @Field("email") email: String,
+        @Field("hardwareID") hardwareID : String,
+        @Query("function") function: String
+    ): Call <DefaultResponse>
 }

@@ -1,7 +1,9 @@
 package com.anlian.ifilm
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.anlian.ifilm.api.RetrofitConnection
 import com.anlian.ifilm.controller.SharedPreferencesData
 import com.anlian.ifilm.databinding.FragmentLoginPageBinding
+import com.anlian.ifilm.model.DefaultResponse
 import com.anlian.ifilm.model.ProfileResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,8 +62,16 @@ class LoginPage : Fragment() {
         }
     }
 
+    @SuppressLint("HardwareIds")
     fun getUserData() {
         val function = "sign_in"
+        val hardwareID = Settings
+            .Secure
+            .getString(requireActivity()
+                .contentResolver,
+                Settings
+                    .Secure
+                    .ANDROID_ID)
         RetrofitConnection
             .getService()
             .signIn(function,email,password)
@@ -70,44 +81,8 @@ class LoginPage : Fragment() {
                     response: Response<ProfileResponse>
                 ) {
                     if (response.isSuccessful){
-                        val email = response
-                            .body()
-                            ?.profile
-                            ?.get(0)
-                            ?.email
-                        val pass = response
-                            .body()
-                            ?.profile
-                            ?.get(0)
-                            ?.password
-                        val fullname = response
-                            .body()
-                            ?.profile
-                            ?.get(0)
-                            ?.name
-                        val picturePath = response
-                            .body()
-                            ?.profile
-                            ?.get(0)
-                            ?.profilePicturePath
-                        val userID = response
-                            .body()
-                            ?.profile
-                            ?.get(0)
-                            ?.iD
-                        val hardwareID = response
-                            .body()
-                            ?.profile
-                            ?.get(0)
-                            ?.hardwareID
-                            .toString()
-                        Toast
-                            .makeText(
-                                requireActivity(),
-                                getString(R.string.sign_in_success),
-                                Toast.LENGTH_LONG)
-                            .show()
-                        saveLoginSession(userID!!,fullname!!,email!!, pass!!,picturePath!!,hardwareID)
+                        saveToSharedPreferences(response)
+                         uploadHardwareID(email,hardwareID)
                     }
                     else{
                         Toast
@@ -130,6 +105,66 @@ class LoginPage : Fragment() {
                 }
 
             })
+    }
+
+    private fun uploadHardwareID(email: String, hardwareID: String) {
+        val function = "signInAddHardwareID"
+        RetrofitConnection
+            .getService()
+            .signInAddHardwareID(email,hardwareID,function)
+            .enqueue(object : Callback<DefaultResponse> {
+                override fun onResponse(
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
+                ) {
+                    Log.d(TAG, "hardware id: $hardwareID")
+                }
+
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                    Log.d(TAG, "onFailure: gagal\nhardware id = $hardwareID")
+                }
+            })
+    }
+
+    private fun saveToSharedPreferences(response: Response<ProfileResponse>) {
+        val email = response
+            .body()
+            ?.profile
+            ?.get(0)
+            ?.email
+        val pass = response
+            .body()
+            ?.profile
+            ?.get(0)
+            ?.password
+        val fullname = response
+            .body()
+            ?.profile
+            ?.get(0)
+            ?.name
+        val picturePath = response
+            .body()
+            ?.profile
+            ?.get(0)
+            ?.profilePicturePath
+        val userID = response
+            .body()
+            ?.profile
+            ?.get(0)
+            ?.iD
+        val hardwareID = response
+            .body()
+            ?.profile
+            ?.get(0)
+            ?.hardwareID
+            .toString()
+        Toast
+            .makeText(
+                requireActivity(),
+                getString(R.string.sign_in_success),
+                Toast.LENGTH_LONG)
+            .show()
+        saveLoginSession(userID!!,fullname!!,email!!, pass!!,picturePath!!,hardwareID)
     }
 
     private fun saveLoginSession(
