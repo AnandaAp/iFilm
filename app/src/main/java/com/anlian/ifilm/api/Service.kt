@@ -45,6 +45,12 @@ interface Service {
         @Query("password") password: String
     ): Call <ProfileResponse>
 
+    @GET("Profile.php")
+    fun signInWithBiometric(
+        @Query("function") function: String,
+        @Query("hardwareID") hardwareID: String
+    ): Call <ProfileResponse>
+
     @FormUrlEncoded
     @POST("restapi.php")
     fun updatePassword(

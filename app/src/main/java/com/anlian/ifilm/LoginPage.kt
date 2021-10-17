@@ -47,17 +47,11 @@ class LoginPage : Fragment() {
         val hardwareID = hardwarePreferences
             .getValueString(SharedPreferencesData.SHARED_PREFERENCE_HARDWARE_KEY)
         signInProcess()
-        if(checkFingerPrintStatus()){
-            if(hardwareID.isNotEmpty()) {
-                orTxt.visibility = View.VISIBLE
-                fingerPrintInfo.visibility = View.VISIBLE
-                binding.fingePrintBtn.visibility = View.VISIBLE
-                displayFingerprint()
-            }
-        }
+        checkFingerPrintStatus(hardwareID)
     }
 
-    private fun displayFingerprint() {
+    private fun displayFingerprint(hardwareID: String) {
+        val funtion = "signInWithBiometric"
         val executor = ContextCompat.getMainExecutor(requireActivity())
         val biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
@@ -72,9 +66,7 @@ class LoginPage : Fragment() {
                 override fun onAuthenticationSucceeded(
                     result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    Toast.makeText(requireActivity(),
-                        "Authentication succeeded!", Toast.LENGTH_SHORT)
-                        .show()
+                    loginWithBio(funtion,hardwareID)
                 }
 
                 override fun onAuthenticationFailed() {
@@ -99,21 +91,62 @@ class LoginPage : Fragment() {
         }
     }
 
-    private fun checkFingerPrintStatus(): Boolean {
+    private fun loginWithBio(function: String, hardwareID: String) {
+        RetrofitConnection
+            .getService()
+            .signInWithBiometric(function,hardwareID)
+            .enqueue(object : Callback<ProfileResponse>{
+                override fun onResponse(
+                    call: Call<ProfileResponse>,
+                    response: Response<ProfileResponse>
+                ) {
+                    if(response.isSuccessful){
+                        if(response.body()?.profile?.get(0)?.hardwareID?.isNotBlank() == true){
+                            saveToSharedPreferences(response)
+                            Toast.makeText(requireActivity(),
+                                "Authentication succeeded!", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        else{
+                            Toast.makeText(requireActivity(), "Authentication failed",
+                                Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                    else{
+                        Toast.makeText(requireActivity(), "Authentication failed",
+                            Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                    Toast.makeText(requireActivity(), "Authentication failed",
+                        Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+    }
+
+    private fun checkFingerPrintStatus(hardwareID: String){
+        Log.i(TAG, "checkFingerPrintStatus: masuk cek")
         val biometricManager = BiometricManager.from(requireActivity())
-        var value = false
-        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+//        BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG )) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
-                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
-                value = true
+                Log.i("iFilm", "App can authenticate using biometrics.")
+                if(hardwareID.isNotEmpty()) {
+                    orTxt.visibility = View.VISIBLE
+                    fingerPrintInfo.visibility = View.VISIBLE
+                    binding.fingePrintBtn.visibility = View.VISIBLE
+                    displayFingerprint(hardwareID)
+                }
             }
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                Log.e("MY_APP_TAG", "No biometric features available on this device.")
-                value = false
+                Log.i("iFilm", "No biometric features available on this device.")
             }
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
-                value = false
+                Log.i("iFilm", "Biometric features are currently unavailable.")
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 // Prompts the user to create credentials that your app accepts.
@@ -122,14 +155,12 @@ class LoginPage : Fragment() {
                         putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
                             BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
                     }
-                    Log.d(TAG, "checkFingerPrintStatus: finger print tidak terseting")
-                    value = false
+                    Log.i(TAG, "checkFingerPrintStatus: finger print tidak terseting")
                 } else {
-                    value = false
+                    Log.i(TAG, "checkFingerPrintStatus: finger print tidak terseting")
                 }
             }
         }
-        return value
     }
 
     private fun signInProcess() {
