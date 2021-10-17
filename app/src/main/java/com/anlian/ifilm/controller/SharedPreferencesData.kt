@@ -44,7 +44,6 @@ class SharedPreferencesData(activity: Activity) {
     }
 
     companion object {
-        const val SHARED_PREFERENCE_CODE = "LOGIN SESSION"
         const val SHARED_PREFERENCE_ID_KEY = "ID CODE"
         const val SHARED_PREFERENCE_EMAIL_KEY = "EMAIL CODE"
         const val SHARED_PREFERENCE_PASSWORD_KEY = "PASSWORD CODE"
@@ -52,5 +51,36 @@ class SharedPreferencesData(activity: Activity) {
         const val SHARED_PREFERENCE_PICTURE_KEY = "PICTURE CODE"
         const val SHARED_PREFERENCE_SESSION_KEY = "SESSION CODE"
         const val SHARED_PREFERENCE_HARDWARE_KEY = "HARDWARE_CODE"
+    }
+
+    class HardwarePreferences(activity: Activity){
+        val SHARED_PREFERENCE_CODE = "HARDWARE SESSION"
+        private var hardwarePreferences: SharedPreferences
+        init{
+            hardwarePreferences = activity
+                .getSharedPreferences(
+                    SHARED_PREFERENCE_CODE,
+                    MODE_PRIVATE
+                )
+        }
+        fun save(key: String,value: String){
+            val editor = hardwarePreferences.edit()
+            editor.putString(key,value)
+            editor.apply()
+        }
+        fun removeValue(key: String) {
+            val editor = hardwarePreferences.edit()
+            editor.remove(key)
+            editor.apply()
+        }
+        fun getValueString(key: String): String{
+            return hardwarePreferences.getString(key,"").toString()
+        }
+        fun clearSharedPreference() {
+            val editor = hardwarePreferences.edit()
+            editor.clear()
+            editor.apply()
+        }
+
     }
 }

@@ -135,5 +135,54 @@
             app:layout_constraintStart_toStartOf="@+id/passwordSignInBoxField"
             app:layout_constraintTop_toBottomOf="@+id/passwordSignInBoxField" />
 
+        <TextView
+            android:id="@+id/orTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="@+id/signInBtnConfirm"
+            app:layout_constraintStart_toStartOf="@+id/signInBtnConfirm"
+            app:layout_constraintTop_toBottomOf="@+id/signInBtnConfirm" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fingePrintBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/tiffany_blue"
+            android:backgroundTint="@color/tiffany_blue"
+            android:visibility="invisible"
+            app:cardCornerRadius="12dp"
+            app:contentPadding="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="@+id/orTxt"
+            app:layout_constraintStart_toStartOf="@+id/orTxt"
+            app:layout_constraintTop_toBottomOf="@+id/orTxt">
+
+            <ImageView
+                android:id="@+id/fingerPrintImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/tiffany_blue"
+                android:src="@drawable/ic_finger_print" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/fingerPrintInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/finger_print_sign_up_info"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/fingePrintBtn"
+            app:layout_constraintEnd_toEndOf="@+id/orTxt"
+            app:layout_constraintStart_toStartOf="@+id/orTxt"
+            app:layout_constraintTop_toBottomOf="@+id/orTxt" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

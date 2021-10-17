@@ -63,4 +63,6 @@
     <string name="msg_token_fmt">token formet</string>
     <string name="msg_subscribed">try to subscribe to topic</string>
     <string name="msg_subscribe_failed">cannot subscripe to topik</string>
+    <string name="or">or</string>
+    <string name="finger_print_sign_up_info">or using finger print</string>
 </resources>
