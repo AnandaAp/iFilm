@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_nav"
-    app:startDestination="@id/home2">
+    app:startDestination="@id/splashScreen">
 
     <fragment
         android:id="@+id/home2"
@@ -198,5 +198,21 @@
         <argument
             android:name="hardwareID"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.anlian.ifilm.SplashScreen"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreen_to_home2"
+            app:destination="@id/home2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/splashScreen"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

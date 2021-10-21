@@ -65,4 +65,5 @@
     <string name="msg_subscribe_failed">cannot subscripe to topik</string>
     <string name="or">or</string>
     <string name="finger_print_sign_up_info">or using finger print</string>
+    <string name="splash_screen_url">https://assets9.lottiefiles.com/packages/lf20_cbrbre30.json</string>
 </resources>
